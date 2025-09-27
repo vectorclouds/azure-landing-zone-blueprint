@@ -2,7 +2,8 @@
 
 A practical, governance-first blueprint that mirrors how (some) enterprises actually set up Azure:
 1) **Tenant/bootstrap** (some portal/CLI/PIM steps)
-2) **Terraform** for management groups, policy-as-code, subscriptions, platform, and application workloads
+2) **Terraform** for management groups, policy-as-code, subscriptions, platform, and application workloads.
+Terraform modules are used which can be referenced to create resources, abstracting some repeatable configuration and security defaults.
 
 > Personal project. Built from scratch with generic patterns and synthetic values. No employer IP.
 

@@ -1,0 +1,134 @@
+# .gitignore for azure-landing-zone-blueprint
+# Best practices consulted: get_bestpractices(resource=general, action=code-generation)
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vscode-test/
+
+# Visual Studio / .NET build outputs
+**/bin/
+**/obj/
+*.log
+*.vs/
+*.nupkg
+*.snk
+
+# Node / JavaScript
+node_modules/
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log
+dist/
+build/
+coverage/
+coverage-*.json
+*.tgz
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+.env
+.venv/
+venv/
+pip-wheel-metadata/
+*.egg-info/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.tfvars
+*.tfvars.json
+.terraformrc
+terraform.tfvars.json
+.terragrunt-cache/
+
+# Bicep / ARM / Azure artifacts
+*.azuredeploy.parameters.json
+*.azuredeploy.json
+*.bicep.lock.json
+.bicepmodules/
+**/obj/
+**/bin/
+
+# Azure Functions local settings & build
+local.settings.json
+secrets.*.json
+.Functions/
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.local.yml
+**/docker-compose.override.yml
+**/.docker/
+
+# CI/CD & workflow artifacts
+/.azure/
+/.github/workflows/*.local.yml
+*.workflow.*
+.terraform.tfstate.backup
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Certificates, keys, secrets
+*.pfx
+*.pem
+*.key
+*.crt
+secrets.json
+*.publishsettings
+
+# Package managers and lock files to ignore if local only
+.idea/
+.vscode/
+*.lock
+package-lock.json
+yarn.lock
+
+# Build outputs and artifacts
+publish/
+out/
+dist/
+artifacts/
+bin/
+obj/
+_release/
+
+# Examples folders (ignore all examples in repo and subfolders)
+examples/
+Examples/
+**/examples/
+**/Examples/
+*/examples/
+*/Examples/
+
+# Misc
+*.swp
+*.swo
+*.bak
+*.orig
