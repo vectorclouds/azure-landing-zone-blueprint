@@ -6,14 +6,12 @@ A practical, governance-first blueprint that mirrors how (some) enterprises actu
 
 > Personal project. Built from scratch with generic patterns and synthetic values. No employer IP.
 
----
 
 ## Why this repo?
 - **Realistic flow**: documents unavoidable tenant steps, then automates everything else.
 - **Guardrails first**: management groups + policy assignments before platform/services.
 - **Extendable**: start small; grow modules and examples incrementally.
 
----
 
 ## High-level flow
 
