@@ -61,6 +61,16 @@ terraform.tfvars
 .terraformrc
 terraform.tfvars.json
 .terragrunt-cache/
+*.tfplan
+*.tfplan.*
+
+# Sensitive deployment files
+**/terraform.tfvars
+**/terraform.tfvars.json
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+**/backend-config.hcl
+**/backend.hcl
 
 # Bicep / ARM / Azure artifacts
 *.azuredeploy.parameters.json
@@ -102,6 +112,13 @@ temp/
 *.crt
 secrets.json
 *.publishsettings
+.env
+.env.*
+!.env.example
+!.env.template
+**/secrets/
+**/private/
+**/.secrets/
 
 # Package managers and lock files to ignore if local only
 .idea/

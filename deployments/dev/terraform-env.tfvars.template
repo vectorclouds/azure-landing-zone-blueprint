@@ -1,0 +1,50 @@
+# Alternative configuration using environment variables
+# This file can be used instead of terraform.tfvars for enhanced security
+# Usage: 
+#   1. Set up your .env file with actual values
+#   2. Run: . .\load-env.ps1
+#   3. Run: terraform plan -var-file="terraform-env.tfvars"
+
+# Azure Configuration - using environment variables
+subscription_id = "${AZURE_SUBSCRIPTION_ID}"
+
+# Resource Group Configuration
+resource_group_name = "${RESOURCE_GROUP_NAME}"
+location           = "${AZURE_LOCATION}"
+
+# Project Information  
+project_name = "${PROJECT_NAME}"
+environment  = "${ENVIRONMENT}"
+owner       = "${OWNER}"
+
+# Storage Account Configuration
+storage_account_name = "${STORAGE_ACCOUNT_NAME}"
+
+# Storage Account Settings (can be overridden with env vars if needed)
+account_tier     = "Standard"
+replication_type = "LRS"
+access_tier      = "Hot"
+
+# Security Settings (secure defaults)
+https_traffic_only_enabled       = true
+min_tls_version                 = "TLS1_2"
+allow_nested_items_to_be_public = false
+shared_access_key_enabled       = true
+public_network_access_enabled   = true
+
+# Container Configuration
+containers = {
+  "demo-files" = {
+    access_type = "private"
+  }
+  "public-assets" = {
+    access_type = "blob"
+  }
+}
+
+# Additional Tags
+storage_tags = {
+  Purpose            = "Demo deployment of storage account module"
+  CostCenter         = "IT-Platform"
+  DataClassification = "General"
+}

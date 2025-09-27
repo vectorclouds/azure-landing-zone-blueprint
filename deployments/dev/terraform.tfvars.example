@@ -1,0 +1,74 @@
+# terraform.tfvars.example
+# Copy this file to terraform.tfvars and fill in your actual values
+# This file shows the structure but contains no sensitive information
+
+# =============================================================================
+# AZURE CONFIGURATION
+# =============================================================================
+# Your Azure subscription ID - get from: az account show --query id -o tsv
+subscription_id = "00000000-0000-0000-0000-000000000000"
+
+# =============================================================================
+# RESOURCE GROUP CONFIGURATION
+# =============================================================================
+resource_group_name = "rg-storage-module-dev"
+location           = "East US"
+
+# =============================================================================
+# PROJECT INFORMATION  
+# =============================================================================
+project_name = "Azure Landing Zone Blueprint"
+environment  = "dev"
+owner       = "Your Name or Team"
+
+# =============================================================================
+# STORAGE ACCOUNT CONFIGURATION
+# =============================================================================
+# IMPORTANT: This must be globally unique across all of Azure
+# Use lowercase letters and numbers only, 3-24 characters
+# Examples: "mystorageacct001", "companydevstorageabc", "yourinitialsstoragedev"
+storage_account_name = "youruniquestorageacct001"
+
+# Storage Account Settings
+account_tier     = "Standard"    # Standard or Premium
+replication_type = "LRS"         # LRS, GRS, RAGRS, ZRS, GZRS, RAGZRS
+access_tier      = "Hot"         # Hot or Cool
+
+# =============================================================================
+# SECURITY SETTINGS
+# =============================================================================
+# Recommended secure defaults for production:
+https_traffic_only_enabled       = true   # Always use HTTPS
+min_tls_version                 = "TLS1_2" # Minimum TLS version
+allow_nested_items_to_be_public = false   # Prevent public blob access
+shared_access_key_enabled       = true    # Set to false for Azure AD only
+public_network_access_enabled   = true    # Set to false for private access only
+
+# =============================================================================
+# CONTAINER CONFIGURATION
+# =============================================================================
+# Define containers to create in the storage account
+containers = {
+  "demo-files" = {
+    access_type = "private"    # private, blob, or container
+  }
+  "public-assets" = {
+    access_type = "blob"       # allows public read access to blobs
+  }
+  # Add more containers as needed:
+  # "documents" = {
+  #   access_type = "private"
+  # }
+}
+
+# =============================================================================
+# ADDITIONAL TAGS
+# =============================================================================
+# Custom tags to apply to the storage account
+storage_tags = {
+  Purpose            = "Demo deployment of storage account module"
+  CostCenter         = "IT-Platform"
+  DataClassification = "General"
+  BackupRequired     = "yes"
+  # Add more tags as needed for your organization
+}

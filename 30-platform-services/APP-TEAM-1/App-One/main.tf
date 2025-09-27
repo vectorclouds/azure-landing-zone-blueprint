@@ -116,8 +116,8 @@ module "private_storage" {
   
   # Enable private endpoint
   enable_private_endpoint    = true
-  private_endpoint_subnet_id = "/subscriptions/your-subscription-id/resourceGroups/rg-network/providers/Microsoft.Network/virtualNetworks/vnet-hub/subnets/subnet-private-endpoints"
-  private_dns_zone_ids      = ["/subscriptions/your-subscription-id/resourceGroups/rg-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"]
+  private_endpoint_subnet_id = "/subscriptions/{subscription-id}/resourceGroups/rg-network/providers/Microsoft.Network/virtualNetworks/vnet-hub/subnets/subnet-private-endpoints"
+  private_dns_zone_ids      = ["/subscriptions/{subscription-id}/resourceGroups/rg-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"]
   
   # Strict network rules
   enable_network_rules         = true
