@@ -74,6 +74,7 @@ foreach ($pattern in $sensitiveFiles) {
 Write-Host "Scanning tracked files for potential secrets..." -ForegroundColor Yellow
 
 $secretPatterns = @(
+    @{ Pattern = "/subscriptions/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"; Description = "Azure Subscription ID in resource path" },
     @{ Pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"; Description = "GUID/UUID (potential subscription ID)" },
     @{ Pattern = "client.*secret\s*=\s*['""`][^'""`\s]+['""`]"; Description = "Client Secret" },
     @{ Pattern = "password\s*=\s*['""`][^'""`\s]+['""`]"; Description = "Password" },
@@ -96,6 +97,27 @@ foreach ($file in $trackedFiles) {
                     } else {
                         Write-Host "[ERROR] Potential $($secretPattern.Description) found in: $file" -ForegroundColor Red
                         $Issues++
+                        
+                        # Auto-fix subscription IDs if Fix flag is used
+                        if ($Fix -and $secretPattern.Description -like "*subscription*") {
+                            $originalContent = $content
+                            $fixedContent = $originalContent
+                            
+                            # Handle different subscription ID patterns
+                            if ($secretPattern.Pattern -like "*/subscriptions/*") {
+                                # Replace Azure resource path subscription IDs
+                                $fixedContent = $fixedContent -replace "/subscriptions/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", "/subscriptions/{subscription-id}"
+                            } else {
+                                # Replace standalone GUIDs with placeholder
+                                $fixedContent = $fixedContent -replace $secretPattern.Pattern, '{subscription-id}'
+                            }
+                            
+                            if ($fixedContent -ne $originalContent) {
+                                Set-Content -Path $file -Value $fixedContent -Encoding UTF8
+                                Write-Host "[FIXED] Replaced subscription ID with placeholder in: $file" -ForegroundColor Green
+                                $Issues-- # Reduce issue count since we fixed it
+                            }
+                        }
                     }
                 }
             }
@@ -106,18 +128,30 @@ foreach ($file in $trackedFiles) {
 # Check 4: Verify template files exist
 Write-Host "Checking for required template files..." -ForegroundColor Yellow
 
-$requiredTemplates = @(
-    "deployments/dev/terraform.tfvars.example",
-    "deployments/dev/.env.example"
-)
-
-foreach ($template in $requiredTemplates) {
-    if (Test-Path $template) {
+# Dynamically find terraform.tfvars.example files
+$tfvarsExamples = Get-ChildItem -Path . -Recurse -Name "terraform.tfvars.example" -ErrorAction SilentlyContinue
+if ($tfvarsExamples) {
+    $uniqueTfvars = $tfvarsExamples | Sort-Object | Get-Unique
+    foreach ($template in $uniqueTfvars) {
         Write-Host "[OK] Template file exists: $template" -ForegroundColor Green
-    } else {
-        Write-Host "[WARN] Missing template file: $template" -ForegroundColor Yellow
-        $Warnings++
     }
+    Write-Host "[INFO] Found $($uniqueTfvars.Count) terraform.tfvars.example file(s)" -ForegroundColor Cyan
+} else {
+    Write-Host "[WARN] No terraform.tfvars.example files found in repository" -ForegroundColor Yellow
+    $Warnings++
+}
+
+# Dynamically find .env.example files
+$envExamples = Get-ChildItem -Path . -Recurse -Name ".env.example" -ErrorAction SilentlyContinue
+if ($envExamples) {
+    $uniqueEnv = $envExamples | Sort-Object | Get-Unique
+    foreach ($template in $uniqueEnv) {
+        Write-Host "[OK] Template file exists: $template" -ForegroundColor Green
+    }
+    Write-Host "[INFO] Found $($uniqueEnv.Count) .env.example file(s)" -ForegroundColor Cyan
+} else {
+    Write-Host "[WARN] No .env.example files found in repository" -ForegroundColor Yellow
+    $Warnings++
 }
 
 # Check 5: Verify git staging area is clean of sensitive files
@@ -151,7 +185,7 @@ if ($Issues -eq 0 -and $Warnings -eq 0) {
     Write-Host "DO NOT commit until these are resolved."
     Write-Host ""
     Write-Host "Quick fixes:"
-    Write-Host "  - Run: .\security-check-v2.ps1 -Fix"
+    Write-Host "  - Run: .\security-check.ps1 -Fix"
     Write-Host "  - Review and remove sensitive data"
     Write-Host "  - Ensure .gitignore is properly configured"
 }

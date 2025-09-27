@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
     Deploy Storage Account Module locally to Azure
@@ -224,13 +224,13 @@ try {
 }
 
 Write-Host ""
-Write-Host "🔗 Next Steps:" -ForegroundColor $Color.Cyan
+Write-Host "Next Steps:" -ForegroundColor $Color.Cyan
 Write-Host "- View your resources in the Azure Portal"
 Write-Host "- Test uploading files to the storage account"
 Write-Host "- Check the automatic tags applied to resources"
 Write-Host "- Run 'terraform output' to see all output values"
 Write-Host ""
-Write-Host "🧹 To clean up: terraform destroy" -ForegroundColor $Color.Yellow
+Write-Host "To clean up: terraform destroy" -ForegroundColor $Color.Yellow
 Write-Host ""
 
 # Clean up plan file

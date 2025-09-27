@@ -1,4 +1,4 @@
-# Azure Authentication Setup for GitHub Actions
+﻿# Azure Authentication Setup for GitHub Actions
 
 This guide walks you through setting up authentication between GitHub Actions and Azure using a Service Principal.
 
@@ -81,7 +81,7 @@ az storage container create \
 
 ## Step 3: Configure GitHub Secrets
 
-Go to your GitHub repository → Settings → Secrets and variables → Actions
+Go to your GitHub repository â†’ Settings â†’ Secrets and variables â†’ Actions
 
 Create these **Repository Secrets**:
 
@@ -114,7 +114,7 @@ tfstate123456  # Use the actual storage account name from Step 2.2
 
 ## Step 4: Create GitHub Environment
 
-1. Go to your repository → Settings → Environments
+1. Go to your repository â†’ Settings â†’ Environments
 2. Click "New environment"
 3. Name it `development`
 4. Click "Create environment"
@@ -183,9 +183,9 @@ Once authentication is set up:
 
 ## Security Best Practices
 
-- [✓] Use Service Principals (not personal accounts)
-- [✓] Grant minimum required permissions
-- [✓] Store secrets in GitHub Secrets (never in code)
-- [✓] Use environment protection rules for production
-- [✓] Regularly rotate Service Principal secrets
-- [✓] Monitor Service Principal usage in Azure AD
+- [âœ“] Use Service Principals (not personal accounts)
+- [âœ“] Grant minimum required permissions
+- [âœ“] Store secrets in GitHub Secrets (never in code)
+- [âœ“] Use environment protection rules for production
+- [âœ“] Regularly rotate Service Principal secrets
+- [âœ“] Monitor Service Principal usage in Azure AD
