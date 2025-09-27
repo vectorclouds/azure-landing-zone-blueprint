@@ -68,14 +68,7 @@ resource "azurerm_storage_account" "main" {
     }
   }
 
-  tags = merge(
-    var.common_tags,
-    var.storage_tags,
-    {
-      "Environment" = var.environment
-      "Purpose"     = var.purpose
-    }
-  )
+  tags = local.all_tags
 }
 
 # Storage Account Blob Service (for advanced configurations)
@@ -123,11 +116,9 @@ resource "azurerm_private_endpoint" "storage_blob" {
   }
 
   tags = merge(
-    var.common_tags,
-    var.storage_tags,
+    local.all_tags,
     {
-      "Environment" = var.environment
-      "Purpose"     = "Private Endpoint for ${var.storage_account_name}"
+      "Purpose" = "Private Endpoint for ${var.storage_account_name}"
     }
   )
 }

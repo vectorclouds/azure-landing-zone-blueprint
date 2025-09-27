@@ -295,6 +295,12 @@ variable "purpose" {
   default     = "General purpose storage account"
 }
 
+variable "enable_module_tags" {
+  description = "Whether to enable automatic module tagging with version and metadata information."
+  type        = bool
+  default     = true
+}
+
 variable "common_tags" {
   description = "Common tags to be applied to all resources."
   type        = map(string)

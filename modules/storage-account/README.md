@@ -9,6 +9,7 @@ This Terraform module creates an Azure Storage Account with enterprise-grade sec
 - **Advanced Features**: Customer-managed encryption, managed identity, blob properties
 - **Compliance Ready**: Resource locks, audit logging, advanced threat protection
 - **Container Management**: Automated container creation with access controls
+- **Version Tracking**: Automatic module version tagging and metadata tracking
 - **Comprehensive Outputs**: All necessary connection strings, endpoints, and metadata
 
 ## Usage
@@ -170,7 +171,7 @@ module "encrypted_storage_account" {
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 3.0 |
+| azurerm | ~> 4.46.0 |
 
 ## Resources
 
@@ -190,6 +191,7 @@ module "encrypted_storage_account" {
 | resource_group_name | Name of the resource group where the storage account will be created. | `string` | n/a | yes |
 | location | Azure region where the storage account will be created. | `string` | n/a | yes |
 | environment | Environment name (e.g., dev, test, prod). | `string` | n/a | yes |
+| enable_module_tags | Whether to enable automatic module tagging with version and metadata information. | `bool` | `true` | no |
 | account_tier | Performance tier of the storage account. Valid options are Standard and Premium. | `string` | `"Standard"` | no |
 | replication_type | Type of replication for the storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS, RAGZRS. | `string` | `"LRS"` | no |
 | account_kind | Kind of storage account. Valid options are BlobStorage, BlockBlobStorage, FileStorage, Storage, StorageV2. | `string` | `"StorageV2"` | no |
@@ -216,6 +218,8 @@ module "encrypted_storage_account" {
 | principal_id | The Principal ID associated with this Managed Service Identity. |
 | private_endpoint_id | The ID of the private endpoint. |
 | container_ids | Map of container names to their IDs. |
+| module_version | The version of the storage account module. |
+| module_name | The name of the storage account module. |
 
 ## Security Considerations
 
@@ -240,13 +244,46 @@ See the `examples/` directory for complete implementation examples including:
 - Private endpoint integration
 - Multi-container scenarios
 
+## Version Tracking
+
+This module uses a simple `artifact.json` file to track version information and automatically tags all Azure resources with module metadata.
+
+### Automatic Module Tags
+
+When `enable_module_tags = true` (default), the following tags are automatically applied:
+
+- `Module.Name`: The name of the module
+- `Module.Version`: Current version from artifact.json  
+- `Module.Type`: Module type/category
+
+### artifact.json Structure
+
+```json
+{
+  "name": "storage-account",
+  "version": "0.0.1",
+  "type": "Azure Landing Zone Blueprint",
+  "created": "2025-09-27",
+  "updated": "2025-09-27"
+}
+```
+
+### Tag Precedence
+
+Tags are merged with the following precedence (highest to lowest):
+1. `storage_tags` (user-provided, storage-specific)
+2. `common_tags` (user-provided, common across resources)
+3. Default tags (`Environment`, `Purpose`)
+4. Module tags (version, metadata)
+
 ## Contributing
 
 When contributing to this module, please:
 1. Follow Terraform best practices
 2. Update documentation for any new variables or outputs
-3. Test your changes with multiple scenarios
-4. Ensure security configurations remain secure by default
+3. **Update artifact.json version and updated date**
+4. Test your changes with multiple scenarios
+5. Ensure security configurations remain secure by default
 
 ## License
 

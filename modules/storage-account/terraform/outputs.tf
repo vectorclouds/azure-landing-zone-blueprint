@@ -150,3 +150,14 @@ output "resource_lock_id" {
   description = "The ID of the resource lock."
   value       = var.enable_resource_lock ? azurerm_management_lock.storage_lock[0].id : null
 }
+
+# Module Version Information
+output "module_version" {
+  description = "The version of the storage account module."
+  value       = local.artifact_data.version
+}
+
+output "module_name" {
+  description = "The name of the storage account module."
+  value       = local.artifact_data.name
+}
