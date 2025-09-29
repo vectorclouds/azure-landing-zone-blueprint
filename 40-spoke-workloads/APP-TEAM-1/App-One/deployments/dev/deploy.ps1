@@ -59,7 +59,7 @@ function Write-Error {
     Write-Host "[ERROR] $Message" -ForegroundColor $Color.Red
 }
 
-# Check if we're in the right directory
+# Check if were in the right directory
 if (-not (Test-Path "terraform.tfvars")) {
     Write-Error "terraform.tfvars not found. Please run this script from the deployments/dev directory."
     Write-Host "Expected path: azure-landing-zone-blueprint/deployments/dev" -ForegroundColor $Color.Yellow
@@ -228,7 +228,7 @@ Write-Host "Next Steps:" -ForegroundColor $Color.Cyan
 Write-Host "- View your resources in the Azure Portal"
 Write-Host "- Test uploading files to the storage account"
 Write-Host "- Check the automatic tags applied to resources"
-Write-Host "- Run 'terraform output' to see all output values"
+Write-Host "- Run terraform output to see all output values"
 Write-Host ""
 Write-Host "To clean up: terraform destroy" -ForegroundColor $Color.Yellow
 Write-Host ""
